@@ -1,0 +1,649 @@
+openapi: 3.0.0
+info:
+  title: eEntry | Event entry management
+  version: 1.0.0
+security:
+  - jwt: []
+tags:
+  - name: auth
+  - name: devices
+  - name: event
+  - name: tickets
+  - name: tickettypes
+  - name: utils
+paths:
+  /auth:
+    get:
+      tags:
+        - auth
+      summary: Check if login is still valid
+      parameters:
+        - $ref: '#/components/parameters/Role'
+      responses:
+        '204':
+          description: No Content
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+  /auth/login:
+    get:
+      tags:
+        - auth
+      summary: Retrieve JWT from device token
+      parameters:
+        - $ref: '#/components/parameters/Role'
+      security:
+        - deviceToken: []
+      responses:
+        '204':
+          description: OK
+          headers:
+            Set-Cookie:
+              schema:
+                type: string
+                example: JWT=abcde12345; Path=/; HttpOnly; Secure
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+  /devices:
+    get:
+      tags:
+        - devices
+      summary: Retrieve all registered devices
+      parameters:
+        - name: revoked
+          in: query
+          schema:
+            type: boolean
+          description: Filter for revoked/not revoked devices
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Device'
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+    post:
+      tags:
+        - devices
+      summary: Register a new device
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/BaseDevice'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OneTimeDevice'
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+  /devices/{id}:
+    get:
+      tags:
+        - devices
+      summary: Retrieve one registered device
+      parameters:
+        - $ref: '#/components/parameters/DeviceID'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Device'
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+    delete:
+      tags:
+        - devices
+      summary: Revoke one registered device
+      parameters:
+        - $ref: '#/components/parameters/DeviceID'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Device'
+        '400':
+          description: |
+            Bad Request
+            Reminder: the last admin can not be revoked
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+  /event:
+    get:
+      tags:
+        - event
+      summary: Get basic event information
+      responses:
+        '200':
+          $ref: '#/components/responses/Event'
+        '401':
+          description: Unauthorized
+    patch:
+      tags:
+        - event
+      summary: Update basic event information
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/BaseEvent'
+      responses:
+        '200':
+          $ref: '#/components/responses/Event'
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+  /event/image:
+    post:
+      tags:
+        - event
+      summary: Update event image
+      requestBody:
+        $ref: '#/components/requestBodies/Image'
+      responses:
+        '200':
+          $ref: '#/components/responses/Event'
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+    delete:
+      tags:
+        - event
+      summary: Update event image
+      responses:
+        '200':
+          $ref: '#/components/responses/Event'
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+  /tickets:
+    get:
+      tags:
+        - tickets
+      summary: Get all tickets
+      description: |
+        Used for application cache and export
+        TODO Add filters (for admin panel and filter "updated since" for only retrieving tickets that were updated)
+        TODO maybe make this upgradeable to websocket for sending updates
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Ticket'
+        '401':
+          description: Unauthorized
+    post:
+      tags:
+        - tickets
+      summary: Create a batch of tickets
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                $ref: '#/components/schemas/BaseTicket'
+      responses:
+        '204':
+          description: No Content
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+  /tickets/{id}:
+    get:
+      tags:
+        - tickets
+      summary: Get information of a ticket
+      parameters:
+        - $ref: '#/components/parameters/TicketID'
+      responses:
+        '200':
+          $ref: '#/components/responses/Ticket'
+        '401':
+          description: Unauthorized
+        '404':
+          description: Not Found
+    patch:
+      tags:
+        - tickets
+      summary: Update information of a ticket
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                type:
+                  $ref: '#/components/schemas/TicketTypeID'
+      parameters:
+        - $ref: '#/components/parameters/TicketID'
+      responses:
+        '200':
+          $ref: '#/components/responses/Ticket'
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+    delete:
+      tags:
+        - tickets
+      summary: Invalidate ticket
+      parameters:
+        - $ref: '#/components/parameters/TicketID'
+        - $ref: '#/components/parameters/DryRun'
+      responses:
+        '200':
+          $ref: '#/components/responses/Ticket'
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+  /tickets/{id}/checkin:
+    post:
+      tags:
+        - tickets
+      summary: Trigger checkin event for ticket
+      parameters:
+        - $ref: '#/components/parameters/TicketID'
+        - $ref: '#/components/parameters/DryRun'
+      responses:
+        '200':
+          $ref: '#/components/responses/Ticket'
+        '401':
+          description: Unauthorized
+        '404':
+          description: Not Found
+        '409':
+          description: |
+            Conflict
+            Ticket has already been checked in once or was invalidated
+  /tickets/{id}/checkout:
+    post:
+      tags:
+        - tickets
+      summary: Trigger checkout event for ticket
+      parameters:
+        - $ref: '#/components/parameters/TicketID'
+        - $ref: '#/components/parameters/DryRun'
+      responses:
+        '200':
+          $ref: '#/components/responses/Ticket'
+        '401':
+          description: Unauthorized
+        '404':
+          description: Not Found
+        '409':
+          description: |
+            Conflict
+            Ticket was not checked in or was invalidated
+  /tickettypes:
+    get:
+      tags:
+        - tickettypes
+      summary: Get a list of all ticket types
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/TicketType'
+        '401':
+          description: Unauthorized
+    post:
+      tags:
+        - tickettypes
+      summary: Create a new ticket type
+      requestBody:
+        $ref: '#/components/requestBodies/TicketType'
+      responses:
+        '200':
+          $ref: '#/components/responses/TicketType'
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+  /tickettypes/{id}:
+    get:
+      tags:
+        - tickettypes
+      summary: Get ticket type
+      parameters:
+        - $ref: '#/components/parameters/TicketTypeID'
+      responses:
+        '200':
+          $ref: '#/components/responses/TicketType'
+        '401':
+          description: Unauthorized
+        '404':
+          description: Not Found
+    patch:
+      tags:
+        - tickettypes
+      summary: Update ticket type
+      requestBody:
+        $ref: '#/components/requestBodies/TicketType'
+      parameters:
+        - $ref: '#/components/parameters/TicketTypeID'
+      responses:
+        '200':
+          $ref: '#/components/responses/TicketType'
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+    delete:
+      tags:
+        - tickettypes
+      summary: Delete ticket type
+      parameters:
+        - $ref: '#/components/parameters/TicketTypeID'
+      responses:
+        '204':
+          description: No Content
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+        '409':
+          description: |
+            Conflict
+            There are already tickets associated to this type
+  /tickettypes/{id}/image:
+    post:
+      tags:
+        - tickettypes
+      summary: Upload and overwrite ticket type image
+      requestBody:
+        $ref: '#/components/requestBodies/Image'
+      parameters:
+        - $ref: '#/components/parameters/TicketTypeID'
+      responses:
+        '200':
+          $ref: '#/components/responses/TicketType'
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+    delete:
+      tags:
+        - tickettypes
+      summary: Delete ticket type image
+      parameters:
+        - $ref: '#/components/parameters/TicketTypeID'
+      responses:
+        '200':
+          $ref: '#/components/responses/TicketType'
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+components:
+  schemas:
+    BaseDevice:
+      type: object
+      required:
+        - name
+        - roles
+      properties:
+        name:
+          type: string
+        roles:
+          type: array
+          items:
+            type: string
+    Device:
+      allOf:
+        - $ref: '#/components/schemas/BaseDevice'
+        - type: object
+          required:
+            - id
+            - name
+            - roles
+            - revoked
+          properties:
+            id:
+              type: number
+            revoked:
+              type: boolean
+    OneTimeDevice:
+      allOf:
+        - $ref: '#/components/schemas/Device'
+        - type: object
+          required:
+            - id
+            - name
+            - roles
+            - revoked
+            - token
+          properties:
+            token:
+              type: string
+    ImageURL:
+      type: string
+      format: uri
+      nullable: true
+      example: https://example.com/image.png
+    BaseEvent:
+      type: object
+      properties:
+        name:
+          type: string
+          example: 26. Altheimer Open-Air 2022
+        date:
+          type: array
+          items:
+            type: string
+            format: date-time
+          minItems: 1
+          maxItems: 2
+          example:
+            - 2022-07-29T18:00:0.000Z
+            - 2022-07-31T03:00:0.000Z
+    Event:
+      allOf:
+        - $ref: '#/components/schemas/BaseEvent'
+        - type: object
+          properties:
+            image:
+              $ref: '#/components/schemas/ImageURL'
+    TicketTypeID:
+      type: number
+      example: 1
+    TicketCheckedInState:
+      type: string
+      enum:
+        - CHECKEDIN
+        - CHECKEDOUT
+    TicketValidState:
+      type: string
+      enum:
+        - VALID
+        - INVALID
+    TicketState:
+      allOf:
+        - $ref: '#/components/schemas/TicketCheckedInState'
+        - $ref: '#/components/schemas/TicketValidState'
+    TicketID:
+      type: string
+      format: ticketID
+      example: '8108507011'
+    BaseTicket:
+      type: object
+      required:
+        - id
+        - type
+      properties:
+        type:
+          $ref: '#/components/schemas/TicketTypeID'
+        id:
+          $ref: '#/components/schemas/TicketID'
+    TicketExtension:
+      type: object
+      properties:
+        state:
+          $ref: '#/components/schemas/TicketState'
+        lastModified:
+          type: string
+          format: date-time
+          nullable: true
+    Ticket:
+      allOf:
+        - $ref: '#/components/schemas/BaseTicket'
+        - $ref: '#/components/schemas/TicketExtension'
+      required:
+        - id
+        - type
+        - state
+    BaseTicketType:
+      type: object
+      properties:
+        name:
+          type: string
+          example: Tagesticket Freitag
+        valid:
+          type: object
+          properties:
+            from:
+              type: string
+              format: date-time
+            until:
+              type: string
+              format: date-time
+      required:
+        - name
+        - valid
+    TicketType:
+      allOf:
+        - $ref: '#/components/schemas/BaseTicketType'
+        - type: object
+          properties:
+            id:
+              $ref: '#/components/schemas/TicketTypeID'
+            image:
+              $ref: '#/components/schemas/ImageURL'
+      required:
+        - id
+        - name
+        - valid
+  parameters:
+    Role:
+      name: role
+      in: query
+      schema:
+        type: string
+      description: If role is given the role will be validated
+      example: entry
+    DryRun:
+      name: dryrun
+      in: query
+      schema:
+        type: boolean
+      description: No mutation will be executed
+      example: false
+    DeviceID:
+      name: id
+      in: path
+      required: true
+      schema:
+        type: number
+    TicketID:
+      name: id
+      in: path
+      required: true
+      schema:
+        $ref: '#/components/schemas/TicketID'
+    TicketTypeID:
+      name: id
+      in: path
+      required: true
+      schema:
+        $ref: '#/components/schemas/TicketTypeID'
+  responses:
+    Event:
+      description: OK
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Event'
+    Ticket:
+      description: OK
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Ticket'
+    TicketType:
+      description: OK
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/TicketType'
+  requestBodies:
+    Image:
+      description: Upload image
+      required: true
+      content:
+        image/*:
+          schema:
+            type: string
+            format: binary
+    TicketType:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/BaseTicketType'
+  securitySchemes:
+    jwt:
+      type: apiKey
+      description: 'JWT containing one of the following roles: unprivileged or admin'
+      in: cookie
+      name: JWT
+    deviceToken:
+      type: apiKey
+      description: 'JWT containing one of the following roles: unprivileged or admin'
+      in: header
+      name: Token

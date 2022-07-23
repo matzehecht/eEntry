@@ -1,0 +1,7 @@
+#!/bin/sh
+. "$(dirname "$0")/_/husky.sh"
+
+set +e
+# Install any missing dependencies since package.json changed
+git diff-tree -r --name-only --no-commit-id "$1" "$2" | grep --quiet package.json && npm -ws --include-workspace-root ci
+set -e

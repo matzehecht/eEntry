@@ -1,0 +1,45 @@
+{
+  "name": "eentry",
+  "version": "1.0.0",
+  "description": "Event entry management",
+  "scripts": {
+    "dev:server": "npm run -w @eentry/server dev",
+    "build:server": "npm run -w @eentry/server build",
+    "build": "npm run -ws build",
+    "start": "npm run -w @eentry/server start",
+    "lint:server": "npm run -w @eentry/server lint"
+  },
+  "license": "MIT",
+  "private": true,
+  "main": "dist/server/index.js",
+  "author": {
+    "name": "Matthias Hecht",
+    "email": "matthias@hecht.space",
+    "url": "https://hecht.space"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/matzehecht/eEntry.git"
+  },
+  "workspaces": [
+    "server"
+  ],
+  "devDependencies": {
+    "@commitlint/cli": "^17.0.3",
+    "@commitlint/config-conventional": "^17.0.3",
+    "@typescript-eslint/parser": "^5.30.7",
+    "eslint": "^8.20.0",
+    "eslint-config-prettier": "^8.5.0",
+    "eslint-config-react-app": "^7.0.1",
+    "eslint-import-resolver-typescript": "^3.3.0",
+    "eslint-plugin-import": "^2.26.0",
+    "eslint-plugin-jsx-a11y": "^6.6.1",
+    "eslint-plugin-no-type-assertion": "^1.3.0",
+    "eslint-plugin-prettier": "^4.2.1",
+    "eslint-plugin-sonarjs": "^0.14.0",
+    "eslint-plugin-sort-keys-fix": "^1.1.2",
+    "eslint-plugin-typescript-sort-keys": "^2.1.0",
+    "husky": "^8.0.1",
+    "prettier": "^2.7.1"
+  }
+}

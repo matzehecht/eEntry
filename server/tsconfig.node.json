@@ -1,0 +1,22 @@
+{
+  "compilerOptions": {
+    "lib": ["es2020"],
+    "module": "CommonJS",
+    "target": "es2020",
+    "outDir": "./dist",
+    "allowJs": true,
+    "checkJs": false,
+    "sourceMap": true,
+    "inlineSources": true,
+    "sourceRoot": "/",
+    "moduleResolution": "node",
+    "esModuleInterop": true,
+    "noImplicitReturns": true,
+    "noUnusedLocals": true,
+    "skipLibCheck": true,
+    "strict": true,
+    "noEmitOnError": false,
+    "types": ["node"]
+  },
+  "include": ["src"]
+}
