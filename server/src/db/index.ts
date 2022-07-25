@@ -1,11 +1,7 @@
 import { resolve } from 'path';
+import { DBDevice, DeviceRole, Role, DBEvent, DBTicket, Ticket, DBTicketEvent, DBTicketType } from '@eentry/types';
 import { knex, Knex } from 'knex';
 import { CONFIG } from '../config';
-import { DBDevice, DeviceRole, Role } from '../types/Device';
-import { DBEvent } from '../types/Event';
-import { DBTicket, Ticket } from '../types/Ticket';
-import { DBTicketEvent } from '../types/TicketEvent';
-import { DBTicketType } from '../types/TicketType';
 
 // eslint-disable-next-line import/no-unused-modules
 export const DB_CONFIG = {
@@ -20,6 +16,7 @@ export const db = knex(DB_CONFIG);
 
 export const initDb = async () => {
   await db.migrate.latest();
+  // eslint-disable-next-line no-console
   console.log('Migrated db');
 };
 

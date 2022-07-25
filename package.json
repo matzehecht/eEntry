@@ -3,11 +3,15 @@
   "version": "1.0.0",
   "description": "Event entry management",
   "scripts": {
-    "dev:server": "npm run -w @eentry/server dev",
+    "dev:server": "npm run -w @eentry/types dev & npm run -w @eentry/server dev",
+    "dev:types": "npm run -w @eentry/types dev",
     "build:server": "npm run -w @eentry/server build",
+    "build:types": "npm run -w @eentry/types build",
     "build": "npm run -ws build",
     "start": "npm run -w @eentry/server start",
     "lint:server": "npm run -w @eentry/server lint",
+    "lint:types": "npm run -w @eentry/web lint",
+    "lint": "npm run -ws lint",
     "prepare": "husky install"
   },
   "license": "MIT",
@@ -23,7 +27,8 @@
     "url": "git+https://github.com/matzehecht/eEntry.git"
   },
   "workspaces": [
-    "server"
+    "server",
+    "types"
   ],
   "devDependencies": {
     "@commitlint/cli": "^17.0.3",

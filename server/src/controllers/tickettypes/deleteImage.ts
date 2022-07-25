@@ -1,6 +1,6 @@
+import { TicketType } from '@eentry/types';
 import { DefaultContext, Middleware } from 'koa';
 import { db } from '../../db';
-import { TicketType } from '../../types/TicketType';
 import { State } from '../../utils/auth';
 import { remove } from '../../utils/images';
 

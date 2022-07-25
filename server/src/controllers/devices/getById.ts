@@ -1,6 +1,6 @@
+import { Device } from '@eentry/types';
 import { DefaultContext, Middleware } from 'koa';
 import { db } from '../../db';
-import { Device } from '../../types/Device';
 import { State } from '../../utils/auth';
 import { getRoles } from '../../utils/device';
 

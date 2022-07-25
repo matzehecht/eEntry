@@ -1,6 +1,6 @@
+import { Event } from '@eentry/types';
 import { DefaultContext, Middleware } from 'koa';
 import { db } from '../../db';
-import { Event } from '../../types/Event';
 import { State } from '../../utils/auth';
 import { upload } from '../../utils/images';
 

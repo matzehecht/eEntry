@@ -1,7 +1,7 @@
+import { BaseTicketType, baseTicketTypeSchema, TicketType } from '@eentry/types';
 import { ValidationResult } from 'joi';
 import { DefaultContext, Middleware } from 'koa';
 import { db } from '../../db';
-import { BaseTicketType, baseTicketTypeSchema, TicketType } from '../../types/TicketType';
 import { State } from '../../utils/auth';
 
 type PathParams = DefaultContext & {

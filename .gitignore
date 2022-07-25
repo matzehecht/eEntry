@@ -31,3 +31,5 @@ TODO.md
 
 .env
 uploads/
+
+**/*.tsbuildinfo

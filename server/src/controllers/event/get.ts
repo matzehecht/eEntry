@@ -1,6 +1,6 @@
+import { Event } from '@eentry/types';
 import { DefaultContext, Middleware } from 'koa';
 import { db } from '../../db';
-import { Event } from '../../types/Event';
 import { State } from '../../utils/auth';
 
 export const get: Middleware<State, DefaultContext, Event> = async (ctx) => {

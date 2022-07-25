@@ -1,6 +1,6 @@
+import { baseEventSchema, Event } from '@eentry/types';
 import { DefaultContext, Middleware } from 'koa';
 import { db } from '../../db';
-import { baseEventSchema, Event } from '../../types/Event';
 import { State } from '../../utils/auth';
 
 export const patch: Middleware<State, DefaultContext, Event> = async (ctx) => {

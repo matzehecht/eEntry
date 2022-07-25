@@ -6,12 +6,14 @@
     "outDir": "./dist",
     "sourceMap": true,
     "inlineSources": true,
-    "sourceRoot": "/",
     "esModuleInterop": true,
     "noImplicitReturns": true,
     "noUnusedLocals": true,
     "noEmitOnError": false,
-    "types": ["node"]
+    "declaration": true,
+    "declarationMap": true,
+    "composite": true,
+    "rootDir": "src"
   },
   "include": ["src"],
   "extends": "../tsconfig.base.json"

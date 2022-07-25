@@ -1,6 +1,6 @@
+import { baseTicketTypeSchema, TicketType } from '@eentry/types';
 import { DefaultContext, Middleware } from 'koa';
 import { db } from '../../db';
-import { baseTicketTypeSchema, TicketType } from '../../types/TicketType';
 import { State } from '../../utils/auth';
 
 export const post: Middleware<State, DefaultContext, TicketType> = async (ctx) => {

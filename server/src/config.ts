@@ -5,6 +5,7 @@ import { config } from 'dotenv';
 config({ path: '../.env' });
 
 type TConfig = {
+  CORS: boolean;
   DISABLE_AUTH: boolean;
   HTTPS_PORT: number;
   HTTP_PORT: number;
@@ -17,6 +18,7 @@ type TConfig = {
 };
 
 const DEFAULTS: TConfig = {
+  CORS: false,
   DISABLE_AUTH: false,
   HTTP_PORT: 80,
   HTTPS_PORT: 443,

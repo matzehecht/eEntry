@@ -56,7 +56,7 @@ export const login: Middleware = async (ctx) => {
     subject: String(id),
   };
   const jwt = sign(payload, CONFIG.JWT_SECRET, options);
-  ctx.cookies.set('JWT', jwt, { expires: addHours(Date.now(), 1) });
+  ctx.cookies.set('JWT', jwt, { expires: addHours(Date.now(), 1), httpOnly: false, overwrite: true, sameSite: 'strict' });
   ctx.status = 204;
   return undefined;
 };

@@ -34,6 +34,7 @@ initDb().then(() => {
       app.callback()
     )
     .once('listening', () => {
+      // eslint-disable-next-line no-console
       console.log(`Server listening to https://localhost:${CONFIG.HTTPS_PORT}`);
     })
     .listen(CONFIG.HTTPS_PORT);

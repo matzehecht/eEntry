@@ -1,7 +1,7 @@
+import { Ticket } from '@eentry/types';
 import Joi from 'joi';
 import { DefaultContext, Middleware } from 'koa';
 import { db } from '../../db';
-import { Ticket } from '../../types/Ticket';
 import { State } from '../../utils/auth';
 
 type PathParams = DefaultContext & {

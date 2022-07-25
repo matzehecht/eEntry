@@ -1,7 +1,7 @@
+import { BaseTicket, baseTicketSchema } from '@eentry/types';
 import Joi, { ValidationResult } from 'joi';
 import { DefaultContext, Middleware } from 'koa';
 import { db } from '../../db';
-import { BaseTicket, baseTicketSchema } from '../../types/Ticket';
 import { State } from '../../utils/auth';
 
 export const post: Middleware<State, DefaultContext> = async (ctx) => {

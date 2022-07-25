@@ -1,5 +1,5 @@
+import { DBDevice } from '@eentry/types';
 import { db } from '../../db';
-import { DBDevice } from '../../types/Device';
 
 export const hasRole = async (role: string | string[], device: DBDevice) => {
   const roles = Array.isArray(role) ? role : [role];

@@ -8,7 +8,9 @@ import { isTokenRevoked, removeFailedJWT } from './utils/auth';
 
 const app = new Koa();
 
-app.use(cors());
+if (CONFIG.CORS) {
+  app.use(cors({ credentials: true }));
+}
 app.use(bodyParser());
 
 if (!CONFIG.DISABLE_AUTH) {

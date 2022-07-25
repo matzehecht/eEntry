@@ -87,6 +87,7 @@ const up = (knex: Knex) => {
 
       await knex('device_role').insert(adminRolesMapping);
 
+      // eslint-disable-next-line no-console
       console.log(`Created new admin\nTOKEN: ${adminId[0].id}-${token}`);
     });
 };

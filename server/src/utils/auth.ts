@@ -28,7 +28,7 @@ export const removeFailedJWT: Middleware = async (ctx, next) => {
   } catch (err) {
     // eslint-disable-next-line no-type-assertion/no-type-assertion
     if (401 === (err as HttpError).status) {
-      ctx.cookies.set('JWT', undefined);
+      ctx.cookies.set('JWT', undefined, { overwrite: true, sameSite: 'strict' });
       ctx.status = 401;
       return;
     }

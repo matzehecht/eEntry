@@ -1,6 +1,6 @@
+import { baseDeviceSchema, Device, OneTimeDevice } from '@eentry/types';
 import { DefaultContext, Middleware } from 'koa';
 import { db } from '../../db';
-import { baseDeviceSchema, Device, OneTimeDevice } from '../../types/Device';
 import { State } from '../../utils/auth';
 import { deviceRoleMapQuery, generateToken, hashAndSalt } from '../../utils/device';
 

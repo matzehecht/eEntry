@@ -1,0 +1,29 @@
+{
+  "name": "@eentry/types",
+  "version": "1.0.0",
+  "description": "Types for eEntry",
+  "main": "dist/index.js",
+  "types": "dist/index",
+  "scripts": {
+    "dev": "tsc --watch",
+    "build": "tsc",
+    "lint": "eslint . --config ../.eslintrc.js"
+  },
+  "author": {
+    "name": "Matthias Hecht",
+    "email": "matthias@hecht.space",
+    "url": "https://hecht.space"
+  },
+  "private": true,
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/matzehecht/eEntry.git"
+  },
+  "license": "MIT",
+  "devDependencies": {
+    "typescript": "^4.7.4"
+  },
+  "dependencies": {
+    "joi": "^17.6.0"
+  }
+}
