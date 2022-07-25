@@ -7,7 +7,8 @@
     "build:server": "npm run -w @eentry/server build",
     "build": "npm run -ws build",
     "start": "npm run -w @eentry/server start",
-    "lint:server": "npm run -w @eentry/server lint"
+    "lint:server": "npm run -w @eentry/server lint",
+    "prepare": "husky install"
   },
   "license": "MIT",
   "private": true,
@@ -39,7 +40,8 @@
     "eslint-plugin-sonarjs": "^0.14.0",
     "eslint-plugin-sort-keys-fix": "^1.1.2",
     "eslint-plugin-typescript-sort-keys": "^2.1.0",
-    "husky": "^8.0.1",
+    "husky": "^8.0.0",
+    "lint-staged": "^13.0.3",
     "prettier": "^2.7.1"
   }
 }
