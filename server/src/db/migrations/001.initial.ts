@@ -50,7 +50,7 @@ const up = (knex: Knex) => {
       const caseState = knex.raw(
         `CASE WHEN e.event = 'INVALIDATE' THEN 'INVALID' WHEN e.event = 'CHECKOUT' THEN 'CHECKEDOUT' WHEN e.event = 'CHECKIN' THEN 'CHECKEDIN' ELSE 'VALID' END AS state`
       );
-      const caseLastModified = knex.raw(`CASE WHEN e.time IS NOT NULL THEN e.time ELSE tickets.created_at END AS lastModified`);
+      const caseLastModified = knex.raw(`CASE WHEN e.time IS NOT NULL THEN e.time ELSE tickets.created_at END AS "lastModified"`);
       view.as(
         knex('tickets')
           .leftJoin(

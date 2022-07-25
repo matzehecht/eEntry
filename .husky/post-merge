@@ -3,5 +3,5 @@
 
 set +e
 # Install any missing dependencies since package.json changed
-git diff-tree -r --name-only --no-commit-id ORIG_HEAD HEAD | grep --quiet package.json && npm -ws --include-workspace-root ci
+git diff-tree -r --name-only --no-commit-id ORIG_HEAD HEAD | grep --quiet package.json && npm ci
 set -e

@@ -1,12 +1,12 @@
 import Joi from 'joi';
 
 interface BaseEvent {
-  date?: Date[] | null;
+  date?: string[] | null;
   name?: string | null;
 }
 
 export const baseEventSchema = Joi.object<BaseEvent>({
-  date: Joi.array().items(Joi.date()).allow(null),
+  date: Joi.array().items(Joi.string().isoDate()).allow(null),
   name: Joi.string().min(1).allow(null),
 });
 

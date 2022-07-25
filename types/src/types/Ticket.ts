@@ -19,7 +19,7 @@ type TicketValidState = 'VALID' | 'INVALID';
 type TicketState = TicketCheckedInState | TicketValidState;
 
 export interface Ticket extends BaseTicket {
-  lastModified: Date;
+  lastModified: string;
   state: TicketState;
 }
 

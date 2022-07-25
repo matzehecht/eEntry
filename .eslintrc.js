@@ -17,6 +17,8 @@ module.exports = {
       './tsconfig.eslint.json',
       './types/tsconfig.json',
       './server/tsconfig.json',
+      './web/tsconfig.json',
+      './web/tsconfig.node.json',
     ],
   },
   plugins: [
@@ -33,16 +35,11 @@ module.exports = {
     'prettier',
   ],
   rules: {
+    'sonarjs/no-duplicate-string': 'off',
+    'no-console': 'warn',
     camelcase: 'off',
     curly: 'error',
-    'import/no-unused-modules': [
-      'error',
-      {
-        missingExports: true,
-        src: ['.'],
-        unusedExports: true,
-      },
-    ],
+    'import/no-unused-modules': 'off',
     'import/order': [
       'error',
       {

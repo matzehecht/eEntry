@@ -1,0 +1,73 @@
+{
+  "theme": {
+    "switch": "Switch to",
+    "system": "system defined theme",
+    "light": "light theme",
+    "dark": "dark theme"
+  },
+  "slogan": "Event entry management",
+  "buttons": {
+    "back": "Back",
+    "cancel": "Cancel",
+    "confirm": "Confirm"
+  },
+  "components": {
+    "barcodeForm": {
+      "divider": "OR",
+      "openScan": "Scan Barcode",
+      "fieldRequired": "Field is required",
+      "placeholder": "Type or scan code..."
+    },
+    "loginForm": {
+      "errorAlert": {
+        "message": "Error while logging in please try again!"
+      },
+      "warningAlert": {
+        "title": "Not logged in!",
+        "message": "Your device has not been logged in yet. Please log in your device by scanning the barcode provided or manually entering the text below the barcode."
+      }
+    },
+    "ticketCheckinConfirm": {
+      "successSnackBar": "Ticket checked in!",
+      "alert": "Error while checkin! Please try again!",
+      "ticketCard": {
+        "invalid": "Invalid ticket",
+        "details": {
+          "code": "Code",
+          "valid": "Valid",
+          "state": "State",
+          "lastModified": "Last Modified"
+        }
+      }
+    }
+  },
+  "apps": {
+    "admin": {
+      "label": "Admin Panel",
+      "description": "Manage the event, ticket types, etc"
+    },
+    "boxOffice": {
+      "label": "Box office",
+      "description": "Register and invlidate tickets sold at the box office"
+    },
+    "entry": {
+      "label": "Entry Control",
+      "description": "Check tickets in and out"
+    },
+    "launcher": {
+      "label": "Launcher"
+    }
+  },
+  "pages": {
+    "entry": {
+      "steps": {
+        "code": "Enter code",
+        "confirm": "Confirm"
+      }
+    },
+    "login": {
+      "successSnackBar": "Ticket checked in!",
+      "label": "Login"
+    }
+  }
+}

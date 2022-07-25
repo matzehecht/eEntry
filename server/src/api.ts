@@ -9,7 +9,7 @@ import { isTokenRevoked, removeFailedJWT } from './utils/auth';
 const app = new Koa();
 
 if (CONFIG.CORS) {
-  app.use(cors({ credentials: true }));
+  app.use(cors({ credentials: true, origin: (ctx) => ctx.request.headers['origin'] || '*' }));
 }
 app.use(bodyParser());
 

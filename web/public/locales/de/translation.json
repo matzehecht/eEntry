@@ -1,0 +1,73 @@
+{
+  "theme": {
+    "switch": "Wechsle zu",
+    "system": "System-definiertes Theme",
+    "light": "helles Theme",
+    "dark": "dunkles Theme"
+  },
+  "slogan": "Event Einlassmanagement",
+  "buttons": {
+    "back": "Zurück",
+    "cancel": "Abcrechen",
+    "confirm": "Bestätigen"
+  },
+  "components": {
+    "barcodeForm": {
+      "divider": "ODER",
+      "openScan": "Scanne Strichcode",
+      "fieldRequired": "Pflichtfeld",
+      "placeholder": "Code (scannen oder eingeben)..."
+    },
+    "loginForm": {
+      "errorAlert": {
+        "message": "Fehler während der Anmeldung. Versuche es bitte erneut!"
+      },
+      "warningAlert": {
+        "title": "Nicht angemeldet!",
+        "message": "Dein Gerät ist noch nicht angemeldet. Bitte melde dich an, indem du den Strichcode scannst oder den Text darunter manuell eingibst."
+      }
+    },
+    "ticketCheckinConfirm": {
+      "successSnackBar": "Ticket eingecheckt!",
+      "alert": "Fehler! Bitte erneut versuchen!",
+      "ticketCard": {
+        "invalid": "Ungültiges Ticket",
+        "details": {
+          "code": "Code",
+          "valid": "Gültig",
+          "state": "Status",
+          "lastModified": "Letzte Änderung"
+        }
+      }
+    }
+  },
+  "apps": {
+    "admin": {
+      "label": "Admin Panel",
+      "description": "Verwalte die Veranstaltung, Tickettypen, etc"
+    },
+    "boxOffice": {
+      "label": "Abendkasse",
+      "description": "Registriere Tickets, die an der Abendkasse verkauft wurden."
+    },
+    "entry": {
+      "label": "Einlasskontrolle",
+      "description": "Tickets ein- und auschecken"
+    },
+    "launcher": {
+      "label": "Launcher"
+    }
+  },
+  "pages": {
+    "entry": {
+      "steps": {
+        "code": "Code eingeben",
+        "confirm": "Bestätigen"
+      }
+    },
+    "login": {
+      "successSnackBar": "Erfolgreich angemeldet!",
+      "label": "Anmelden"
+    }
+  }
+}

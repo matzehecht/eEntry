@@ -3,16 +3,21 @@
   "version": "1.0.0",
   "description": "Event entry management",
   "scripts": {
-    "dev:server": "npm run -w @eentry/types dev & npm run -w @eentry/server dev",
+    "dev:server": "npm run -w @eentry/server dev",
+    "dev:web": "npm run -w @eentry/web dev",
     "dev:types": "npm run -w @eentry/types dev",
     "build:server": "npm run -w @eentry/server build",
+    "build:web": "npm run -w @eentry/web build",
     "build:types": "npm run -w @eentry/types build",
     "build": "npm run -ws build",
+    "preview:web": "npm run -w @eentry/web preview",
     "start": "npm run -w @eentry/server start",
     "lint:server": "npm run -w @eentry/server lint",
-    "lint:types": "npm run -w @eentry/web lint",
+    "lint:web": "npm run -w @eentry/web lint",
+    "lint:types": "npm run -w @eentry/types lint",
     "lint": "npm run -ws lint",
-    "prepare": "husky install"
+    "prepare": "husky install",
+    "test": "echo \"No tests defined\""
   },
   "license": "MIT",
   "private": true,
@@ -28,6 +33,7 @@
   },
   "workspaces": [
     "server",
+    "web",
     "types"
   ],
   "devDependencies": {

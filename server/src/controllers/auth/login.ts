@@ -51,12 +51,12 @@ export const login: Middleware = async (ctx) => {
   const payload = { name, roles: roles.join(' ') };
   const options: SignOptions = {
     audience: CONFIG.HOST,
-    expiresIn: '1h',
+    expiresIn: '6h',
     issuer: CONFIG.HOST,
     subject: String(id),
   };
   const jwt = sign(payload, CONFIG.JWT_SECRET, options);
-  ctx.cookies.set('JWT', jwt, { expires: addHours(Date.now(), 1), httpOnly: false, overwrite: true, sameSite: 'strict' });
+  ctx.cookies.set('JWT', jwt, { expires: addHours(Date.now(), 6), httpOnly: false, overwrite: true, sameSite: 'strict' });
   ctx.status = 204;
   return undefined;
 };

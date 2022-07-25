@@ -1,12 +1,12 @@
 import Joi from 'joi';
 
 interface Valid {
-  from: Date;
-  until: Date;
+  from: string;
+  until: string;
 }
 const validSchema = Joi.object<Valid>({
-  from: Joi.date().required(),
-  until: Joi.date().min(Joi.ref('from')).required(),
+  from: Joi.string().isoDate().required(),
+  until: Joi.string().isoDate().required(),
 });
 
 export interface BaseTicketType {
