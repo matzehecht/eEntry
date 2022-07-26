@@ -56,7 +56,7 @@ export const Entry: React.FC<App> = (app) => {
           </Container>
         </Stack>
       </BasePage>
-      <BarcodeDialog open={scanning} onClose={handleStopScan} onScanned={handleSubmit} />
+      <BarcodeDialog open={!code && scanning} onClose={handleStopScan} onScanned={handleSubmit} />
     </>
   );
 };
