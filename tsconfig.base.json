@@ -4,9 +4,6 @@
     "allowJs": false,
     "moduleResolution": "node",
     "skipLibCheck": true,
-    "strict": true,
-    "paths": {
-      "@eentry/types": ["./types/src"]
-    }
+    "strict": true
   }
 }

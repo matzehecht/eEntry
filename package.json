@@ -9,7 +9,7 @@
     "build:server": "npm run -w @eentry/server build",
     "build:web": "npm run -w @eentry/web build",
     "build:types": "npm run -w @eentry/types build",
-    "build": "npm run -ws build",
+    "build": "npm run build:types && npm run build:server && npm run build:web",
     "preview:web": "npm run -w @eentry/web preview",
     "start": "npm run -w @eentry/server start",
     "lint:server": "npm run -w @eentry/server lint",
