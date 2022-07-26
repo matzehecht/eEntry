@@ -2,7 +2,7 @@ import { createHash } from 'crypto';
 import randomString from 'randomstring';
 import { db } from '../db';
 
-export const generateToken = () => randomString.generate({ charset: 'alphanumeric', length: 32 });
+export const generateToken = () => randomString.generate({ charset: 'numeric', length: 20 });
 
 const generateSalt = () => randomString.generate({ charset: 'alphanumeric', length: 10 });
 

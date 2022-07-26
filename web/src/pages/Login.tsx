@@ -23,7 +23,7 @@ const sx: Record<string, SxProps<Theme>> = {
 export const LoginPage: FC = () => {
   const { t } = useTranslation();
 
-  const { showSuccessSnackbar } = useSnackbarNotification();
+  const { showSuccessSnackbar, showErrorSnackbar } = useSnackbarNotification();
 
   const [login, { originalArgs, isLoading, isSuccess, isError }] = useLoginMutation();
   const [token, setToken] = useRecoilState(tokenState);
@@ -47,14 +47,17 @@ export const LoginPage: FC = () => {
 
   const handleSubmit = useCallback(
     (newToken: string) => {
+      handleStopScan();
       login({ token: newToken }).then((response) => {
         if (!('error' in response)) {
           setToken(newToken);
           showSuccessSnackbar(t('pages.login.successSnackBar'));
+        } else {
+          showErrorSnackbar(t('pages.login.errorSnackBar'));
         }
       });
     },
-    [login, setToken, showSuccessSnackbar, t]
+    [handleStopScan, login, setToken, showErrorSnackbar, showSuccessSnackbar, t]
   );
 
   return (

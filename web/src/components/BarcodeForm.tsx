@@ -24,6 +24,7 @@ export const BarcodeForm: FC<BarcodeFormProps> = ({ onScan, onSubmit }) => {
       <form onSubmit={handleSubmit(submit)}>
         <TextFieldSubmit
           {...register('code', { required: true })}
+          autoComplete="off"
           // eslint-disable-next-line jsx-a11y/no-autofocus
           autoFocus
           error={Boolean(errors.code)}

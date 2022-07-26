@@ -152,6 +152,7 @@
     },
     "login": {
       "successSnackBar": "Erfolgreich angemeldet!",
+      "errorSnackBar": "Fehler beim anmelden! Bitte versuche es erneut!",
       "label": "Anmelden"
     }
   }

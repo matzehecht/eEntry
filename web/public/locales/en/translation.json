@@ -151,7 +151,8 @@
       }
     },
     "login": {
-      "successSnackBar": "Ticket checked in!",
+      "successSnackBar": "Successfully logged in!",
+      "errorSnackBar": "Error while logging in! Please try again!",
       "label": "Login"
     }
   }
