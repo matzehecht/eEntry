@@ -10,7 +10,7 @@ type PathParams = DefaultContext & {
 };
 
 export const deleteById: Middleware<State, PathParams, Device> = async (ctx) => {
-  if ((await db('tickets').where('type_id', ctx.params.id)).length > 0) {
+  if ((await db('tickets').where('type', ctx.params.id)).length > 0) {
     ctx.status = 409;
     return;
   }

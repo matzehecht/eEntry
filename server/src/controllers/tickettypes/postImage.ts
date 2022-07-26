@@ -38,8 +38,8 @@ export const postImage: Middleware<State, PathParams, TicketType> = async (ctx) 
     image: updatedTicketType[0].image,
     name: updatedTicketType[0].name,
     valid: {
-      from: updatedTicketType[0].valid_from,
-      until: updatedTicketType[0].valid_until,
+      from: updatedTicketType[0].valid_from.toISOString(),
+      until: updatedTicketType[0].valid_until.toISOString(),
     },
   };
 };

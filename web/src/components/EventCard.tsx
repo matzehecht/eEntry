@@ -1,20 +1,23 @@
 import { FC } from 'react';
-import { Card, CardMedia, CardContent, Typography, SxProps, Theme, Skeleton } from '@mui/material';
+import { Card, CardMedia, CardContent, Typography, SxProps, Theme, Skeleton, CardActions, Button, Box } from '@mui/material';
+import { useTranslation } from 'react-i18next';
 import { useGetEventQuery } from '../api/api.event';
 
 const sx: Record<string, SxProps<Theme>> = {
-  card: {
-    display: 'flex',
-  },
   cardContent: {
     flex: '1 0 auto',
   },
   cardMedia: {
     width: 151,
   },
+  flexWrapper: {
+    display: 'flex',
+  },
 };
 
-export const EventCard: FC = () => {
+export const EventCard: FC<EventCardProps> = ({ onEdit, onReset }) => {
+  const { t } = useTranslation();
+
   const { data, isFetching } = useGetEventQuery(undefined, {
     selectFromResult: (response) => ({
       ...response,
@@ -42,21 +45,58 @@ export const EventCard: FC = () => {
   }
 
   if (!data || !data.name) {
-    // ? Should we add a placeholder card here?
-    return null;
+    return (
+      <Card>
+        <CardContent>
+          <Typography component="div" variant="h6">
+            {t('components.eventCard.placeholder')} {new Date().toLocaleDateString()}
+          </Typography>
+        </CardContent>
+        {onEdit && (
+          <CardActions>
+            {onEdit && (
+              <Button variant="contained" onClick={onEdit}>
+                {t('buttons.edit')}
+              </Button>
+            )}
+          </CardActions>
+        )}
+      </Card>
+    );
   }
 
   return (
-    <Card sx={sx.card}>
-      {data.image && <CardMedia component="img" image={data.image} sx={sx.cardMedia} />}
-      <CardContent sx={sx.cardContent}>
-        <Typography component="div" variant="h6">
-          {data.name}
-        </Typography>
-        <Typography color="text.secondary" component="div" variant="subtitle1">
-          {data.date?.map((date) => date.toLocaleDateString()).join(' - ')}
-        </Typography>
-      </CardContent>
+    <Card>
+      <Box sx={sx.flexWrapper}>
+        {data.image && <CardMedia component="img" image={data.image} sx={sx.cardMedia} />}
+        <CardContent sx={sx.cardContent}>
+          <Typography component="div" variant="h6">
+            {data.name}
+          </Typography>
+          <Typography color="text.secondary" component="div" variant="subtitle1">
+            {data.date?.map((date) => date.toLocaleDateString()).join(' - ')}
+          </Typography>
+        </CardContent>
+      </Box>
+      {(onEdit || onReset) && (
+        <CardActions>
+          {onReset && (
+            <Button variant="outlined" onClick={onReset}>
+              {t('buttons.reset')}
+            </Button>
+          )}
+          {onEdit && (
+            <Button variant="contained" onClick={onEdit}>
+              {t('buttons.edit')}
+            </Button>
+          )}
+        </CardActions>
+      )}
     </Card>
   );
+};
+
+type EventCardProps = {
+  onEdit?: () => void;
+  onReset?: () => void;
 };

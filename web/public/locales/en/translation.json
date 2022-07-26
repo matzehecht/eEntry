@@ -9,14 +9,47 @@
   "buttons": {
     "back": "Back",
     "cancel": "Cancel",
-    "confirm": "Confirm"
+    "confirm": "Confirm",
+    "reset": "Reset",
+    "edit": "Edit",
+    "save": "Save",
+    "create": "Create",
+    "close": "Close"
   },
   "components": {
+    "deviceDialog": {
+      "title": "New device",
+      "error": "Error creating device",
+      "nameLabel": "Device name",
+      "rolesLabel": "Roles",
+      "roles": {
+        "entry": "Entry",
+        "boxoffice": "Box office",
+        "admin": "Admin"
+      }
+    },
+    "deviceCodeDialog": {
+      "title": "Device created successfully",
+      "description": "Please save this code as will be only shown here. Not even the admin can see it again.",
+      "saveImage": "Save image"
+    },
     "barcodeForm": {
       "divider": "OR",
       "openScan": "Scan Barcode",
       "fieldRequired": "Field is required",
       "placeholder": "Type or scan code..."
+    },
+    "eventCard": {
+      "placeholder": "Your event on"
+    },
+    "eventDialog": {
+      "title": "Edit event",
+      "name": "Event name",
+      "dateFrom": "From",
+      "dateTo": "To",
+      "fieldRequired": "Field is required",
+      "errorPatch": "Error while patching data",
+      "errorDate": "Please enter valid dates (both or none)"
     },
     "loginForm": {
       "errorAlert": {
@@ -44,7 +77,12 @@
   "apps": {
     "admin": {
       "label": "Admin Panel",
-      "description": "Manage the event, ticket types, etc"
+      "description": "Manage the event, ticket types, etc",
+      "subpages": {
+        "tickets": {
+          "label": "Manage tickets"
+        }
+      }
     },
     "boxOffice": {
       "label": "Box office",
@@ -63,6 +101,53 @@
       "steps": {
         "code": "Enter code",
         "confirm": "Confirm"
+      }
+    },
+    "adminDashboard": {
+      "checkincount": "Checkedin tickets",
+      "devices": {
+        "title": "Devices",
+        "columns": {
+          "id": "ID",
+          "name": "Name",
+          "roles": "Roles",
+          "revoked": "Revoked?"
+        },
+        "revokeSuccess": "Successfully revoked device",
+        "revokeError": "Error while revoking device",
+        "clearSelection": "Clear selection",
+        "revoke": "Revoke selected device",
+        "newButton": "New device"
+      }
+    },
+    "adminTickets": {
+      "types": {
+        "title": "Ticket types",
+        "columns": {
+          "id": "ID",
+          "name": "Name",
+          "from": "Valid from",
+          "until": "Valid until"
+        },
+        "success": "Successfully modified ticket type",
+        "error": "Error while modifying ticket type",
+        "clearSelection": "Clear selection",
+        "edit": "Edit ticket type",
+        "delete": "Delete ticket type",
+        "new": "New ticket type"
+      },
+      "tickets": {
+        "title": "Tickets",
+        "columns": {
+          "id": "ID",
+          "type": "Type",
+          "state": "State",
+          "lastModified": "Last Modified"
+        },
+        "success": "Successfully deleted ticket",
+        "error": "Error while deleting ticket",
+        "clearSelection": "Clear selection",
+        "delete": "Delete ticket"
       }
     },
     "login": {

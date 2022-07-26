@@ -9,14 +9,47 @@
   "buttons": {
     "back": "Zurück",
     "cancel": "Abcrechen",
-    "confirm": "Bestätigen"
+    "confirm": "Bestätigen",
+    "reset": "Zurücksetzen",
+    "edit": "Bearbeiten",
+    "save": "Speichern",
+    "create": "Erstellen",
+    "close": "Schließen"
   },
   "components": {
+    "deviceDialog": {
+      "title": "Neues Gerät",
+      "error": "Fehler beim Erstellen",
+      "nameLabel": "Gerätename",
+      "rolesLabel": "Rollen",
+      "roles": {
+        "entry": "Einlass",
+        "boxoffice": "Abendkasse",
+        "admin": "Admin"
+      }
+    },
+    "deviceCodeDialog": {
+      "title": "Gerät erfolgreich erstellt!",
+      "description": "Bitte speichere diesen Code, da er nur einmal angezeigt wird. Auch der Admin kann diesen nicht wieder anzeigen.",
+      "saveImage": "Speichere als Bild"
+    },
     "barcodeForm": {
       "divider": "ODER",
       "openScan": "Scanne Strichcode",
       "fieldRequired": "Pflichtfeld",
       "placeholder": "Code (scannen oder eingeben)..."
+    },
+    "eventCard": {
+      "placeholder": "Deine Veranstaltung am"
+    },
+    "eventDialog": {
+      "title": "Bearbeite Veranstaltung",
+      "name": "Veranstaltungsname",
+      "dateFrom": "Von",
+      "dateTo": "Bis",
+      "fieldRequired": "Pflichtfeld",
+      "errorPatch": "Fehler wärend dem bearbeiten",
+      "errorDate": "Bitte gebe ein valides Datum an (keines oder beide)"
     },
     "loginForm": {
       "errorAlert": {
@@ -44,7 +77,12 @@
   "apps": {
     "admin": {
       "label": "Admin Panel",
-      "description": "Verwalte die Veranstaltung, Tickettypen, etc"
+      "description": "Verwalte die Veranstaltung, Tickettypen, etc",
+      "subpages": {
+        "tickets": {
+          "label": "Verwalte tickets"
+        }
+      }
     },
     "boxOffice": {
       "label": "Abendkasse",
@@ -63,6 +101,53 @@
       "steps": {
         "code": "Code eingeben",
         "confirm": "Bestätigen"
+      }
+    },
+    "adminDashboard": {
+      "checkincount": "Eingecheckte Tickets",
+      "devices": {
+        "title": "Geräte",
+        "columns": {
+          "id": "ID",
+          "name": "Name",
+          "roles": "Rollen",
+          "revoked": "Deaktiviert?"
+        },
+        "revokeSuccess": "Gerät erfolgreich deaktiviert",
+        "revokeError": "Fehler beim deaktivieren",
+        "clearSelection": "Selektion zurücksetzen",
+        "revoke": "Deaktiviere selektiertes Gerät",
+        "newButton": "Neues Gerät"
+      }
+    },
+    "adminTickets": {
+      "types": {
+        "title": "Tickettypen",
+        "columns": {
+          "id": "ID",
+          "name": "Name",
+          "from": "Gültig von",
+          "until": "Gültig bis"
+        },
+        "success": "Erfolgreich bearbeitet",
+        "error": "Fehler beim bearbeiten",
+        "clearSelection": "Selektion zurücksetzen",
+        "edit": "Tickettyp bearbeiten",
+        "delete": "Tickettyp löschen",
+        "new": "Neuer Tickettyp"
+      },
+      "tickets": {
+        "title": "Tickets",
+        "columns": {
+          "id": "ID",
+          "type": "Typ",
+          "state": "Status",
+          "lastModified": "Zuletzt Geändert"
+        },
+        "success": "Erfolgreich gelöscht",
+        "error": "Fehler beim löschen",
+        "clearSelection": "Selektion zurücksetzen",
+        "delete": "Lösche Ticket"
       }
     },
     "login": {

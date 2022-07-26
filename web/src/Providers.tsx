@@ -1,4 +1,6 @@
 import { PropsWithChildren } from 'react';
+import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
+import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { SnackbarProvider } from 'notistack';
 import { HelmetProvider } from 'react-helmet-async';
 import { Provider } from 'react-redux';
@@ -15,9 +17,11 @@ export const Providers: React.FC<ProvidersProps> = ({ children }) => {
         <BrowserRouter>
           <Provider store={store}>
             <SnackbarProvider maxSnack={3}>
-              <ThemeProvider>
-                <AuthProvider>{children}</AuthProvider>
-              </ThemeProvider>
+              <LocalizationProvider dateAdapter={AdapterDateFns}>
+                <ThemeProvider>
+                  <AuthProvider>{children}</AuthProvider>
+                </ThemeProvider>
+              </LocalizationProvider>
             </SnackbarProvider>
           </Provider>
         </BrowserRouter>

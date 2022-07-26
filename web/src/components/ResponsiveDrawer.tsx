@@ -1,4 +1,4 @@
-import { PropsWithChildren } from 'react';
+import { PropsWithChildren, useMemo } from 'react';
 import {
   Divider,
   Drawer,
@@ -15,6 +15,7 @@ import {
 import { useTranslation } from 'react-i18next';
 import { Link } from 'react-router-dom';
 import { APPS, APPS_LIST } from '../config/Apps';
+import { App } from '../config/Apps.types';
 
 const sx: Record<string, SxProps<Theme>> = {
   drawer: {
@@ -61,14 +62,32 @@ type DrawerSwitchProps = PropsWithChildren<{
   onClose: DrawerProps['onClose'];
 }>;
 
-export const ResponsiveDrawer: React.FC<ResponsiveDrawerProps> = (props) => {
+export const ResponsiveDrawer: React.FC<ResponsiveDrawerProps> = ({ app, ...rest }) => {
   const { t } = useTranslation();
 
+  const subPages = useMemo(() => {
+    if (!app.subpages) {
+      return null;
+    }
+
+    return (
+      <List>
+        {app.subpages.map(({ label, path }, i) => (
+          <ListItem key={i} disablePadding>
+            <ListItemButton component={Link} to={path}>
+              <ListItemText primary={t(label)} sx={sx.text} />
+            </ListItemButton>
+          </ListItem>
+        ))}
+      </List>
+    );
+  }, [app.subpages, t]);
+
   return (
-    <DrawerSwitch {...props}>
+    <DrawerSwitch {...rest}>
       <Toolbar />
       <Divider />
-      <List dense>
+      <List>
         <ListItem disablePadding>
           <ListItemButton href={APPS.launcher.path}>
             <ListItemIcon>{APPS.launcher.Icon}</ListItemIcon>
@@ -89,8 +108,9 @@ export const ResponsiveDrawer: React.FC<ResponsiveDrawerProps> = (props) => {
         ))}
       </List>
       <Divider />
+      {subPages}
     </DrawerSwitch>
   );
 };
 
-type ResponsiveDrawerProps = Omit<DrawerSwitchProps, 'children'>;
+type ResponsiveDrawerProps = Omit<DrawerSwitchProps, 'children'> & { app: App };

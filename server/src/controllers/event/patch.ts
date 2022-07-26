@@ -11,6 +11,16 @@ export const patch: Middleware<State, DefaultContext, Event> = async (ctx) => {
     return;
   }
 
+  if (value.name === null) {
+    await db('events').del();
+    ctx.body = {
+      date: null,
+      image: null,
+      name: null,
+    };
+    return;
+  }
+
   if ((await db('events')).length === 0) {
     const newEvents = await db('events').insert(value).returning(['name', 'image', 'date']);
     ctx.body = newEvents[0];

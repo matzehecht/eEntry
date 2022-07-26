@@ -5,6 +5,9 @@ import { AppBar } from './AppBar';
 import { ResponsiveDrawer } from './ResponsiveDrawer';
 
 const sx: Record<string, SxProps<Theme>> = {
+  container: {
+    overflowY: 'auto',
+  },
   content: {
     flex: '1 0 auto',
     maxWidth: 1,
@@ -31,12 +34,14 @@ export const BaseLayout: React.FC<BaseLayoutProps> = ({ app, children, maxWidth 
     <Box sx={sx.root}>
       {!app.disableMenu && (
         <Box sx={sx.drawer}>
-          <ResponsiveDrawer drawerMobileOpen={drawerMobileOpen} isDesktop={isDesktop} onClose={handleClose} />
+          <ResponsiveDrawer app={app} drawerMobileOpen={drawerMobileOpen} isDesktop={isDesktop} onClose={handleClose} />
         </Box>
       )}
       <Stack gap={2} sx={sx.content}>
         <AppBar app={app} disableMenuButton={app.disableMenu} toggleMenu={handleToggleDrawer} />
-        <Container maxWidth={maxWidth}>{children}</Container>
+        <Container maxWidth={maxWidth} sx={sx.container}>
+          {children}
+        </Container>
       </Stack>
     </Box>
   );

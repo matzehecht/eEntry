@@ -1,7 +1,18 @@
 import { createTheme, ThemeOptions } from '@mui/material';
 import { deepmerge } from '@mui/utils';
+import type {} from '@mui/x-date-pickers/themeAugmentation';
 
-const baseTheme: ThemeOptions = {};
+const baseTheme: ThemeOptions = {
+  components: {
+    MuiDatePicker: {
+      styleOverrides: {
+        root: {
+          backgroundColor: 'red',
+        },
+      },
+    },
+  },
+};
 
 // Based on: https://colorhunt.co/palette/f0ebe3e4dccf7d9d9c576f72
 const baseLightTheme: ThemeOptions = {

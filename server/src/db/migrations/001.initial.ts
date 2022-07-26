@@ -1,3 +1,4 @@
+import { writeFileSync } from 'fs';
 import { Knex } from 'knex';
 import { generateToken, hashAndSalt } from '../../utils/device';
 
@@ -89,6 +90,7 @@ const up = (knex: Knex) => {
 
       // eslint-disable-next-line no-console
       console.log(`Created new admin\nTOKEN: ${adminId[0].id}-${token}`);
+      writeFileSync('../admin.txt', `${adminId[0].id}-${token}`);
     });
 };
 

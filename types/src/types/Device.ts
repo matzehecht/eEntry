@@ -1,6 +1,6 @@
 import Joi from 'joi';
 
-interface BaseDevice {
+export interface BaseDevice {
   name: string;
   roles: string[];
 }

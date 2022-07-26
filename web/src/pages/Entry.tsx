@@ -32,7 +32,7 @@ export const Entry: React.FC<App> = (app) => {
   return (
     <>
       <BasePage app={app}>
-        <Stack gap={1}>
+        <Stack gap={2}>
           <EventCard />
           <Divider />
           <Container maxWidth="sm" sx={sx.container}>

@@ -22,8 +22,8 @@ export const getById: Middleware<State, PathParams, TicketType> = async (ctx) =>
     image: ticketType.image,
     name: ticketType.name,
     valid: {
-      from: ticketType.valid_from,
-      until: ticketType.valid_until,
+      from: ticketType.valid_from.toISOString(),
+      until: ticketType.valid_until.toISOString(),
     },
   };
 };

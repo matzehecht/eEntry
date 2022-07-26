@@ -14,6 +14,13 @@ export const APPS: Record<APP_KEYS, App> = {
     order: 2,
     path: '/admin',
     role: 'admin',
+    subpages: [
+      {
+        key: 'tickets',
+        label: 'apps.admin.subpages.tickets.label',
+        path: 'tickets',
+      },
+    ],
   },
   // boxOffice: {
   //   description: 'apps.boxOffice.description',

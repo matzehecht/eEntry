@@ -10,8 +10,8 @@ export const get: Middleware<State, DefaultContext, TicketType[]> = async (ctx) 
     image,
     name,
     valid: {
-      from: valid_from,
-      until: valid_until,
+      from: valid_from.toISOString(),
+      until: valid_until.toISOString(),
     },
   }));
   ctx.body = parsed;

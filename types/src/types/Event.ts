@@ -1,6 +1,6 @@
 import Joi from 'joi';
 
-interface BaseEvent {
+export interface BaseEvent {
   date?: string[] | null;
   name?: string | null;
 }
