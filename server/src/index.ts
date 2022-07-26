@@ -24,7 +24,7 @@ app.use(etag());
 
 app.use(mount('/api', api));
 app.use(mount('/uploads', serve(CONFIG.UPLOAD_DIR)));
-app.use(serve(resolve('../web/dist')));
+app.use(mount('/', serve(resolve('../web/dist'))));
 // Catch everything falling through
 app.use(async (ctx, next) => {
   return await serve(resolve('../web/dist'))(Object.assign(ctx, { path: 'index.html' }), next);

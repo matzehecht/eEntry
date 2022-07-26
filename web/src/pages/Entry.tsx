@@ -24,7 +24,13 @@ export const Entry: React.FC<App> = (app) => {
 
   const [scanning, handleScan, handleStopScan] = useOpen(false);
 
-  const handleSubmit = useCallback((code: string) => navigate(code), [navigate]);
+  const handleSubmit = useCallback(
+    (code: string) => {
+      handleStopScan();
+      navigate(code);
+    },
+    [handleStopScan, navigate]
+  );
 
   const handleCancelConfirm = useCallback(() => navigate('.'), [navigate]);
   const handleConfirmed = useCallback(() => navigate('.'), [navigate]);
@@ -56,7 +62,7 @@ export const Entry: React.FC<App> = (app) => {
           </Container>
         </Stack>
       </BasePage>
-      <BarcodeDialog open={!code && scanning} onClose={handleStopScan} onScanned={handleSubmit} />
+      <BarcodeDialog open={scanning} onClose={handleStopScan} onScanned={handleSubmit} />
     </>
   );
 };

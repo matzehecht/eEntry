@@ -122,6 +122,7 @@ export const Scanner: FC<ScannerProps> = ({ onBack, onScanned }) => {
         const barcodes = (await detector.detect(videoRef.current)) as Barcode[];
 
         if (barcodes.length > 0) {
+          console.log('🚀 ~ file: Scanner.tsx ~ line 126 ~ interval ~ barcodes', barcodes);
           onScanned(barcodes[0].rawValue);
         }
       }
