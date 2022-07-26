@@ -84,8 +84,8 @@ export const Scanner: FC<ScannerProps> = ({ onBack, onScanned }) => {
         video: {
           aspectRatio: 9 / 16,
           deviceId: deviceId,
-          height: { min: 500 },
-          width: { min: 500 },
+          height: { ideal: 4096, min: 500 },
+          width: { ideal: 2160, min: 500 },
         },
       })
       .then((stream) => {
