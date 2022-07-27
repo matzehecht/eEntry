@@ -2,6 +2,7 @@
   "name": "eentry",
   "version": "1.0.0",
   "description": "Event entry management",
+  "main": "server/dist/index.js",
   "scripts": {
     "dev:server": "npm run -w @eentry/server dev",
     "dev:web": "npm run -w @eentry/web dev",
@@ -22,7 +23,6 @@
   },
   "license": "MIT",
   "private": true,
-  "main": "dist/server/index.js",
   "author": {
     "name": "Matthias Hecht",
     "email": "matthias@hecht.space",
