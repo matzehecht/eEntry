@@ -18,8 +18,9 @@ import {
 import { skipToken } from '@reduxjs/toolkit/query';
 import { useTranslation } from 'react-i18next';
 import { useCheckinMutation, useGetTicketByIdQuery, useGetTicketTypeByIdQuery } from '../api/api.tickets';
+import { useGetConfigQuery } from '../api/config';
 import { useSnackbarNotification } from '../hooks/useSnackbarNotification';
-import { playError } from '../utils/sounds';
+import { playBeep, playError } from '../utils/sounds';
 import { ValidIndicator } from './ValidIndicator';
 
 const parseDate = (date: string) => new Date(Date.parse(date));
@@ -51,6 +52,8 @@ const getSxValidity = (validity?: 'error' | 'warning' | 'success') => {
 
 export const TicketCheckinConfirm: FC<TicketCheckinConfirmProps> = ({ code, onCancel, onConfirmed }) => {
   const { t } = useTranslation();
+
+  const { data } = useGetConfigQuery();
 
   const { showSuccessSnackbar } = useSnackbarNotification();
 
@@ -96,12 +99,12 @@ export const TicketCheckinConfirm: FC<TicketCheckinConfirmProps> = ({ code, onCa
       return 'error';
     }
     const now = new Date(Date.now());
-    if (now < ticketTypeData.valid.from || ticketTypeData.valid.until <= now) {
+    if (!data?.disableConfirmOtherTimeframe && (now < ticketTypeData.valid.from || ticketTypeData.valid.until <= now)) {
       return 'warning';
     }
 
     return 'success';
-  }, [isErrorTicket, isErrorTicketType, ticketData?.state, ticketTypeData]);
+  }, [data?.disableConfirmOtherTimeframe, isErrorTicket, isErrorTicketType, ticketData?.state, ticketTypeData]);
 
   const handleConfirm = useCallback(() => {
     if (ticketData) {
@@ -110,6 +113,7 @@ export const TicketCheckinConfirm: FC<TicketCheckinConfirmProps> = ({ code, onCa
   }, [checkin, ticketData]);
   useEffect(() => {
     if (isSuccess) {
+      playBeep();
       onConfirmed();
       showSuccessSnackbar(t('components.ticketCheckinConfirm.successSnackBar'));
     }

@@ -10,7 +10,7 @@ import { LoginForm } from '../components/LoginForm';
 import { useOpen } from '../hooks/useOpen';
 import { useSnackbarNotification } from '../hooks/useSnackbarNotification';
 import { tokenState } from '../store/recoil';
-import { playError } from '../utils/sounds';
+import { playBeep, playError } from '../utils/sounds';
 
 const sx: Record<string, SxProps<Theme>> = {
   container: {
@@ -51,6 +51,7 @@ export const LoginPage: FC = () => {
       handleStopScan();
       login({ token: newToken }).then((response) => {
         if (!('error' in response)) {
+          playBeep();
           setToken(newToken);
           showSuccessSnackbar(t('pages.login.successSnackBar'));
         } else {

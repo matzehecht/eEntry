@@ -15,5 +15,11 @@ export const config = createApi({
       }),
     }),
   }),
+  keepUnusedDataFor: 1,
   reducerPath: 'config',
+  refetchOnFocus: true,
+  refetchOnMountOrArgChange: true,
+  refetchOnReconnect: true,
 });
+
+export const { useGetConfigQuery } = config;

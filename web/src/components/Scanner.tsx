@@ -8,7 +8,6 @@ import { DecodeHintType } from '@zxing/library';
 import { useTranslation } from 'react-i18next';
 import { useRecoilState } from 'recoil';
 import { torchState, videoDeviceIdState } from '../store/recoil';
-import { playBeep } from '../utils/sounds';
 import { CameraPlaceholder } from './CameraPlaceholder';
 
 const sx: Record<string, SxProps<Theme>> = {
@@ -95,8 +94,7 @@ export const Scanner: FC<ScannerProps> = ({ onBack, onScanned }) => {
             if (navigator.vibrate) {
               navigator.vibrate([100, 300, 200]);
             }
-            playBeep();
-            setTimeout(() => onScanned(result?.getText()), 100);
+            onScanned(result?.getText());
           }
         })
         .then((newScanner) => {
