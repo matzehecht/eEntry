@@ -1,17 +1,10 @@
 /* eslint-disable import/no-unused-modules */
 import * as React from 'react';
-import { BarcodeDetectorPolyfill } from '@undecaf/barcode-detector-polyfill';
 import { createRoot } from 'react-dom/client';
 import { App } from './App';
 import './index.css';
 import './i18n';
 import { Providers } from './Providers';
-
-try {
-  window['BarcodeDetector'].getSupportedFormats();
-} catch {
-  window['BarcodeDetector'] = BarcodeDetectorPolyfill;
-}
 
 // eslint-disable-next-line no-type-assertion/no-type-assertion
 createRoot(document.getElementById('root') as HTMLElement).render(

@@ -3,11 +3,13 @@ import CameraswitchIcon from '@mui/icons-material/Cameraswitch';
 import FlashlightOffOutlinedIcon from '@mui/icons-material/FlashlightOffOutlined';
 import FlashlightOnOutlinedIcon from '@mui/icons-material/FlashlightOnOutlined';
 import { Box, Button, SxProps, Theme, IconButton, alpha } from '@mui/material';
+import { BrowserMultiFormatOneDReader, IScannerControls, BarcodeFormat } from '@zxing/browser';
+import { DecodeHintType } from '@zxing/library';
 import { useTranslation } from 'react-i18next';
 import { useRecoilState } from 'recoil';
 import { torchState, videoDeviceIdState } from '../store/recoil';
+import { playBeep } from '../utils/sounds';
 import { CameraPlaceholder } from './CameraPlaceholder';
-import { canTorch, stopMediaStream } from './Scanner.utils';
 
 const sx: Record<string, SxProps<Theme>> = {
   container: {
@@ -46,7 +48,7 @@ const sx: Record<string, SxProps<Theme>> = {
   },
 };
 
-const FORMATS = ['code_128'];
+const DECODE_HINTS = new Map<DecodeHintType, any>([[DecodeHintType.POSSIBLE_FORMATS, [BarcodeFormat.CODE_128]]] as const);
 
 export const Scanner: FC<ScannerProps> = ({ onBack, onScanned }) => {
   const { t } = useTranslation();
@@ -59,13 +61,13 @@ export const Scanner: FC<ScannerProps> = ({ onBack, onScanned }) => {
   const [hasTorch, setHasTorch] = useState(false);
 
   const videoRef = useRef<HTMLVideoElement>(null);
-  const streamRef = useRef<MediaStream>();
-  const detector = useMemo(() => new window.BarcodeDetector({ formats: FORMATS }), []);
+  const scannerControls = useRef<IScannerControls>();
+  const barcodeReader = useMemo(() => new BrowserMultiFormatOneDReader(DECODE_HINTS), []);
 
   const toggleTorch = useCallback(() => setTorchOn((prev) => !prev), [setTorchOn]);
   const handleCameraSwitch = useCallback(() => {
     if (deviceIds) {
-      const index = deviceId ? deviceIds.indexOf(deviceId) : 0;
+      const index = typeof deviceId === 'string' ? deviceIds.indexOf(deviceId) : 0;
       const nextDeviceId = deviceIds[index + 1];
 
       setDeviceId(nextDeviceId ?? deviceIds[0]);
@@ -73,62 +75,40 @@ export const Scanner: FC<ScannerProps> = ({ onBack, onScanned }) => {
   }, [deviceId, deviceIds, setDeviceId]);
 
   useEffect(() => {
-    navigator.mediaDevices.enumerateDevices().then((devices) => {
+    BrowserMultiFormatOneDReader.listVideoInputDevices().then((devices) => {
       setDeviceIds(devices.filter(({ kind }) => kind === 'videoinput').map(({ deviceId }) => deviceId));
     });
   }, []);
 
   useEffect(() => {
-    navigator.mediaDevices
-      .getUserMedia({
-        video: {
-          aspectRatio: 9 / 16,
-          deviceId: deviceId,
-          height: { ideal: 4096, min: 500 },
-          width: { ideal: 2160, min: 500 },
-        },
-      })
-      .then((stream) => {
-        streamRef.current = stream;
-        if (videoRef.current) {
-          videoRef.current.srcObject = stream;
-
-          const torchAvailable = canTorch(stream);
-          setHasTorch(torchAvailable);
-        } else {
-          // If already unmounted
-          stopMediaStream(stream);
-        }
-      });
-    return () => {
-      if (streamRef.current) {
-        stopMediaStream(streamRef.current);
-      }
-    };
-  }, [deviceId]);
-
-  useEffect(() => {
-    const videoTrack = streamRef.current?.getVideoTracks()[0];
-    if (videoTrack) {
-      // eslint-disable-next-line no-type-assertion/no-type-assertion
-      videoTrack.applyConstraints({ advanced: [{ torch: torchOn } as MediaTrackConstraintSet] });
+    if (hasTorch) {
+      scannerControls.current?.switchTorch?.(torchOn);
     }
-  }, [torchOn]);
+  }, [hasTorch, torchOn]);
 
   useEffect(() => {
-    const interval = setInterval(async () => {
-      if (videoRef.current) {
-        // eslint-disable-next-line no-type-assertion/no-type-assertion
-        const barcodes = (await detector.detect(videoRef.current)) as Barcode[];
+    if (videoRef.current) {
+      barcodeReader
+        .decodeFromVideoDevice(deviceId, videoRef.current, (result, error, controls) => {
+          if (result?.getText()) {
+            controls.stop();
+            if (navigator.vibrate) {
+              navigator.vibrate([100, 300, 200]);
+            }
+            playBeep();
+            setTimeout(() => onScanned(result?.getText()), 100);
+          }
+        })
+        .then((newScanner) => {
+          setHasTorch(Boolean(newScanner.switchTorch));
+          scannerControls.current = newScanner;
+        });
+    }
 
-        if (barcodes.length > 0) {
-          const value = barcodes[0].rawValue;
-          onScanned(value.startsWith(']') ? value.slice(3) : value);
-        }
-      }
-    }, 100);
-    return () => clearInterval(interval);
-  }, [detector, onScanned]);
+    return () => {
+      scannerControls.current?.stop();
+    };
+  }, [barcodeReader, deviceId, onScanned]);
 
   return (
     <Box sx={sx.container}>
@@ -158,11 +138,11 @@ type ScannerProps = {
   onScanned: (code: string) => void;
 };
 
-type Barcode = {
-  boundingBox: DOMRectReadOnly;
-  cornerPoints: { x: number; y: number }[];
-  format: string;
-  orientation: number;
-  quality: number;
-  rawValue: string;
-};
+// type Barcode = {
+//   boundingBox: DOMRectReadOnly;
+//   cornerPoints: { x: number; y: number }[];
+//   format: string;
+//   orientation: number;
+//   quality: number;
+//   rawValue: string;
+// };

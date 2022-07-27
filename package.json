@@ -17,7 +17,8 @@
     "lint:types": "npm run -w @eentry/types lint",
     "lint": "npm run -ws lint",
     "prepare": "husky install",
-    "test": "echo \"No tests defined\""
+    "test": "echo \"No tests defined\"",
+    "clean": "npm run --ws clean"
   },
   "license": "MIT",
   "private": true,

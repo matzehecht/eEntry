@@ -19,6 +19,7 @@ import { skipToken } from '@reduxjs/toolkit/query';
 import { useTranslation } from 'react-i18next';
 import { useCheckinMutation, useGetTicketByIdQuery, useGetTicketTypeByIdQuery } from '../api/api.tickets';
 import { useSnackbarNotification } from '../hooks/useSnackbarNotification';
+import { playError } from '../utils/sounds';
 import { ValidIndicator } from './ValidIndicator';
 
 const parseDate = (date: string) => new Date(Date.parse(date));
@@ -91,6 +92,7 @@ export const TicketCheckinConfirm: FC<TicketCheckinConfirmProps> = ({ code, onCa
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const checkinValidity = useMemo(() => {
     if (ticketData?.state !== 'VALID' || isErrorTicket || isErrorTicketType || !ticketTypeData) {
+      playError();
       return 'error';
     }
     const now = new Date(Date.now());
@@ -112,6 +114,12 @@ export const TicketCheckinConfirm: FC<TicketCheckinConfirmProps> = ({ code, onCa
       showSuccessSnackbar(t('components.ticketCheckinConfirm.successSnackBar'));
     }
   }, [showSuccessSnackbar, isSuccess, onConfirmed, t]);
+
+  useEffect(() => {
+    if (isErrorTicket || isErrorTicketType) {
+      playError();
+    }
+  }, [isErrorTicket, isErrorTicketType]);
 
   if (isFetchingTicket || isFetchingTicketType) {
     return (
