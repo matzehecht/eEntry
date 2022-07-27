@@ -1,0 +1,12 @@
+[Unit]
+Description=eEntry
+After=network.target
+
+[Service]
+User={user}
+ExecStart=/usr/bin/npm run start
+Restart=on-failure
+WorkingDirectory=/home/{user}/eEntry
+
+[Install]
+WantedBy=multi-user.target
