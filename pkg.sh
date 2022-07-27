@@ -4,6 +4,7 @@ rm -r eEntry
 mkdir eEntry
 cp package.json eEntry
 cp package-lock.json eEntry
+cp eEntry.service.template eEntry
 
 cp -r node_modules eEntry
 
@@ -21,3 +22,7 @@ cp -r server/dist/* eEntry/server/dist
 mkdir -p eEntry/web/dist
 cp web/package.json eEntry/web
 cp -r web/dist/* eEntry/web/dist
+
+pushd eEntry
+zip -r ../eEntry.zip ./*
+popd
