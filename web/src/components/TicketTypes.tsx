@@ -1,6 +1,6 @@
 import { FC, useCallback, useMemo } from 'react';
 import { Typography, Box } from '@mui/material';
-import { DataGrid, GridColumns } from '@mui/x-data-grid';
+import { DataGrid, GridColumns, GridValueFormatterParams } from '@mui/x-data-grid';
 import { useTranslation } from 'react-i18next';
 import { useGetTicketTypesQuery } from '../api/api.tickets';
 
@@ -18,11 +18,13 @@ export const TicketTypes: FC = () => {
         field: 'from',
         flex: 1,
         headerName: t('pages.adminTickets.types.columns.from'),
+        valueFormatter: ({ value }: GridValueFormatterParams<string>) => new Date(Date.parse(value)).toLocaleString(),
       },
       {
         field: 'until',
         flex: 1,
         headerName: t('pages.adminTickets.types.columns.until'),
+        valueFormatter: ({ value }: GridValueFormatterParams<string>) => new Date(Date.parse(value)).toLocaleString(),
       },
     ],
     [t]

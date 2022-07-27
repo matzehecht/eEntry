@@ -3,7 +3,7 @@ import { Ticket } from '@eentry/types';
 import DeleteIcon from '@mui/icons-material/Delete';
 import { LoadingButton } from '@mui/lab';
 import { Typography, Stack, Box, Button } from '@mui/material';
-import { DataGrid, GridColumns, GridSelectionModel } from '@mui/x-data-grid';
+import { DataGrid, GridColumns, GridSelectionModel, GridValueFormatterParams } from '@mui/x-data-grid';
 import { useTranslation } from 'react-i18next';
 import { useDeleteTicketByIdMutation, useGetTicketsQuery, useGetTicketTypesQuery } from '../api/api.tickets';
 import { useSnackbarNotification } from '../hooks/useSnackbarNotification';
@@ -37,6 +37,7 @@ export const Tickets: FC = () => {
         field: 'lastModified',
         flex: 1.5,
         headerName: t('pages.adminTickets.tickets.columns.lastModified'),
+        valueFormatter: ({ value }: GridValueFormatterParams<string>) => new Date(Date.parse(value)).toLocaleString(),
       },
     ],
     [t, ticketTypes]

@@ -16,6 +16,7 @@ import { useTranslation } from 'react-i18next';
 import { Link } from 'react-router-dom';
 import { APPS, APPS_LIST } from '../config/Apps';
 import { App } from '../config/Apps.types';
+import { useJWTRoles } from '../hooks/jwt';
 
 const sx: Record<string, SxProps<Theme>> = {
   drawer: {
@@ -65,6 +66,8 @@ type DrawerSwitchProps = PropsWithChildren<{
 export const ResponsiveDrawer: React.FC<ResponsiveDrawerProps> = ({ app, ...rest }) => {
   const { t } = useTranslation();
 
+  const roles = useJWTRoles();
+
   const subPages = useMemo(() => {
     if (!app.subpages) {
       return null;
@@ -83,6 +86,17 @@ export const ResponsiveDrawer: React.FC<ResponsiveDrawerProps> = ({ app, ...rest
     );
   }, [app.subpages, t]);
 
+  const filteredApps = useMemo(
+    () =>
+      APPS_LIST.filter(({ role }) => {
+        if (!role) {
+          return true;
+        }
+        return roles?.includes(role);
+      }),
+    [roles]
+  );
+
   return (
     <DrawerSwitch {...rest}>
       <Toolbar />
@@ -98,7 +112,7 @@ export const ResponsiveDrawer: React.FC<ResponsiveDrawerProps> = ({ app, ...rest
             />
           </ListItemButton>
         </ListItem>
-        {APPS_LIST.map(({ label, path, Icon, description }, i) => (
+        {filteredApps.map(({ label, path, Icon, description }, i) => (
           <ListItem key={i} disablePadding>
             <ListItemButton component={Link} to={path}>
               <ListItemIcon>{Icon}</ListItemIcon>
