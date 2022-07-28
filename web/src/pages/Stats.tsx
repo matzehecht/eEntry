@@ -16,9 +16,15 @@ const sx: Record<string, SxProps<Theme>> = {
 export const Stats: React.FC<App> = (app) => {
   const { t } = useTranslation();
 
-  const { data: totalCount } = useGetCheckinCountQuery();
-  const { data: countPerType = {} } = useGetCheckinCountPerTypeQuery();
-  const { data: ticketTypes } = useGetTicketTypesQuery();
+  const { data: totalCount } = useGetCheckinCountQuery(undefined, {
+    pollingInterval: 3000,
+  });
+  const { data: countPerType = {} } = useGetCheckinCountPerTypeQuery(undefined, {
+    pollingInterval: 3000,
+  });
+  const { data: ticketTypes } = useGetTicketTypesQuery(undefined, {
+    pollingInterval: 3000,
+  });
 
   return (
     <BasePage app={app}>
