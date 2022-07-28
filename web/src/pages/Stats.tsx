@@ -13,7 +13,7 @@ const sx: Record<string, SxProps<Theme>> = {
   },
 };
 
-export const LoginPage: FC = () => {
+export const Stats: FC = () => {
   const { t } = useTranslation();
 
   const { data: totalCount } = useGetCheckinCountQuery(undefined, {

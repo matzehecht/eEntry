@@ -11,7 +11,7 @@ const APP_PAGES: Record<APP_KEYS, ReactElement> = {
   // boxOffice: <></>,
   entry: <Entry {...APPS.entry} />,
   launcher: <Launcher {...APPS.launcher} />,
-  stats: <Stats {...APPS.stats} />,
+  stats: <Stats />,
 };
 
 export const App: React.FC = () => {
