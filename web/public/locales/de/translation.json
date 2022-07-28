@@ -84,6 +84,11 @@
         }
       }
     },
+    "stats": {
+      "label": "Statistik",
+      "description": "Zeige die aktuellen checkin Statisik",
+      "heading": "Eingecheckte Tickets"
+    },
     "boxOffice": {
       "label": "Abendkasse",
       "description": "Registriere Tickets, die an der Abendkasse verkauft wurden."

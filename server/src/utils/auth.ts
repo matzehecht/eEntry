@@ -2,6 +2,7 @@ import { HttpError } from 'http-errors';
 import { JwtPayload } from 'jsonwebtoken';
 import { DefaultState, Middleware } from 'koa';
 import { Options } from 'koa-jwt';
+import { CONFIG } from '../config';
 import { db } from '../db';
 
 export const isTokenRevoked: Options['isRevoked'] = async (_, decodedToken) => {
@@ -38,11 +39,13 @@ export const removeFailedJWT: Middleware = async (ctx, next) => {
 export const checkOneOfRoles =
   (roles: string[]): Middleware<State> =>
   async (ctx, next) => {
-    const requestRoles = ctx.state.user.roles?.split(' ');
+    if (!CONFIG.DISABLE_AUTH) {
+      const requestRoles = ctx.state.user.roles?.split(' ');
 
-    if (!requestRoles?.some((requestRole) => roles.includes(requestRole))) {
-      ctx.status = 403;
-      return;
+      if (!requestRoles?.some((requestRole) => roles.includes(requestRole))) {
+        ctx.status = 403;
+        return;
+      }
     }
     return await next();
   };

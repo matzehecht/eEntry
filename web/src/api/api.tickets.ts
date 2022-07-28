@@ -1,3 +1,4 @@
+/* eslint-disable sonarjs/no-identical-functions */
 import { Ticket, TicketType } from '@eentry/types';
 import { api } from './api';
 import { TAG_TICKET, TAG_TICKETTYPE } from './api.tickets.tags';
@@ -35,12 +36,32 @@ const endpointsAuth = api.injectEndpoints({
     getCheckinCount: builder.query<number, void>({
       providesTags: [TAG_TICKET],
       query: () => ({
+        params: {
+          state: 'CHECKEDIN',
+        },
         url: `tickets`,
       }),
       transformResponse: (tickets: Ticket[]) => {
-        const filteredTickets = tickets.filter(({ state }) => state === 'CHECKEDIN');
-
-        return filteredTickets.length;
+        return tickets.length;
+      },
+    }),
+    getCheckinCountPerType: builder.query<Record<number, number>, void>({
+      providesTags: [TAG_TICKET],
+      query: () => ({
+        params: {
+          state: 'CHECKEDIN',
+        },
+        url: `tickets`,
+      }),
+      transformResponse: (tickets: Ticket[]) => {
+        return tickets.reduce<Record<number, number>>((prev, { type }) => {
+          if (prev[type]) {
+            prev[type] = prev[type] + 1;
+          } else {
+            prev[type] = 1;
+          }
+          return prev;
+        }, {});
       },
     }),
     getTicketById: builder.query<Ticket, { id: string }>({
@@ -79,4 +100,5 @@ export const {
   useDeleteTicketTypeByIdMutation,
   useGetTicketsQuery,
   useDeleteTicketByIdMutation,
+  useGetCheckinCountPerTypeQuery,
 } = endpointsAuth;

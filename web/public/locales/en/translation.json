@@ -84,6 +84,11 @@
         }
       }
     },
+    "stats": {
+      "label": "Stats",
+      "description": "View current check in stats",
+      "heading": "Checkedin tickets"
+    },
     "boxOffice": {
       "label": "Box office",
       "description": "Register and invlidate tickets sold at the box office"
