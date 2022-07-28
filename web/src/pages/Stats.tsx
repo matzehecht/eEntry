@@ -1,8 +1,8 @@
-import { SxProps, Theme, Grid, Typography } from '@mui/material';
+import { FC } from 'react';
+import { Container, Grid, SxProps, Theme, Typography } from '@mui/material';
+import { Helmet } from 'react-helmet-async';
 import { useTranslation } from 'react-i18next';
-import { useGetCheckinCountPerTypeQuery, useGetCheckinCountQuery, useGetTicketTypesQuery } from '../api/api.tickets';
-import { App } from '../config/Apps.types';
-import { BasePage } from './BasePage';
+import { useGetCheckinCountQuery, useGetCheckinCountPerTypeQuery, useGetTicketTypesQuery } from '../api/api.tickets';
 
 const sx: Record<string, SxProps<Theme>> = {
   container: {
@@ -11,12 +11,9 @@ const sx: Record<string, SxProps<Theme>> = {
     height: 1,
     px: 0,
   },
-  item: {
-    textAlign: 'center',
-  },
 };
 
-export const Stats: React.FC<App> = (app) => {
+export const LoginPage: FC = () => {
   const { t } = useTranslation();
 
   const { data: totalCount } = useGetCheckinCountQuery(undefined, {
@@ -30,26 +27,32 @@ export const Stats: React.FC<App> = (app) => {
   });
 
   return (
-    <BasePage app={app}>
-      <Grid container spacing={2} sx={sx.container}>
-        <Grid item sx={sx.item} xs={12}>
-          <Typography variant="h3">{t('apps.stats.heading')}</Typography>
-        </Grid>
-        <Grid xs={12}>
-          <Typography variant="h3">{totalCount}</Typography>
-        </Grid>
-        {Object.values(countPerType).map((type, count) => (
-          <Grid key={type} item sx={sx.item} xs={Object.keys(countPerType).length / 12}>
-            <Typography variant="h3">
-              <>
-                {count}
-                <br />
-                {ticketTypes?.find(({ id }) => type === id)?.name}
-              </>
-            </Typography>
+    <>
+      <Helmet>
+        <title>{`${t('pages.login.label')} - eEntry | ${t('slogan')}`}</title>
+        <meta content={`${t('pages.login.label')} - eEntry | ${t('slogan')}`} name="description" />
+      </Helmet>
+      <Container maxWidth="sm" sx={sx.container}>
+        <Grid container spacing={2} sx={sx.container}>
+          <Grid item sx={sx.item} xs={12}>
+            <Typography variant="h3">{t('apps.stats.heading')}</Typography>
           </Grid>
-        ))}
-      </Grid>
-    </BasePage>
+          <Grid item sx={sx.item} xs={12}>
+            <Typography variant="h3">{totalCount}</Typography>
+          </Grid>
+          {Object.values(countPerType).map((type, count) => (
+            <Grid key={type} item sx={sx.item} xs={Object.keys(countPerType).length / 12}>
+              <Typography variant="h3">
+                <>
+                  {count}
+                  <br />
+                  {ticketTypes?.find(({ id }) => type === id)?.name}
+                </>
+              </Typography>
+            </Grid>
+          ))}
+        </Grid>
+      </Container>
+    </>
   );
 };
