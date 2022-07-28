@@ -11,6 +11,9 @@ const sx: Record<string, SxProps<Theme>> = {
     height: 1,
     px: 0,
   },
+  item: {
+    textAlign: 'center',
+  },
 };
 
 export const Stats: React.FC<App> = (app) => {
@@ -29,14 +32,14 @@ export const Stats: React.FC<App> = (app) => {
   return (
     <BasePage app={app}>
       <Grid container spacing={2} sx={sx.container}>
-        <Grid xs={12}>
+        <Grid item sx={sx.item} xs={12}>
           <Typography variant="h3">{t('apps.stats.heading')}</Typography>
         </Grid>
         <Grid xs={12}>
           <Typography variant="h3">{totalCount}</Typography>
         </Grid>
         {Object.values(countPerType).map((type, count) => (
-          <Grid key={type} xs={Object.keys(countPerType).length / 12}>
+          <Grid key={type} item sx={sx.item} xs={Object.keys(countPerType).length / 12}>
             <Typography variant="h3">
               <>
                 {count}
